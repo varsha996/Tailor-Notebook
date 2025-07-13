@@ -1,0 +1,162 @@
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    padding: 20px;
+    color: #333;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  form[method="GET"] {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  form[method="GET"] input[type="text"] {
+    padding: 8px 12px;
+    width: 250px;
+    border: 1.5px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+  }
+
+  form[method="GET"] button {
+    padding: 9px 18px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+  }
+
+  thead {
+    background-color: #3498db;
+    color: white;
+  }
+
+  thead th, tbody td {
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f5f8fa;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  input[type="tel"],
+  select {
+    width: 100%;
+    padding: 6px 8px;
+    font-size: 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    margin: 2px;
+    cursor: pointer;
+  }
+
+  .save-button {
+    background-color: #27ae60;
+    color: white;
+  }
+
+  .delete-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+</style>
+
+<h2>Order History</h2>
+
+<form method="GET" action="/customer/orders">
+  <input type="text" name="q" placeholder="Search by name..." value="<%= searchQuery %>">
+  <button type="submit">Search</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Product</th>
+      <th>Measurements</th>
+      <th>Cost</th>
+      <th>Date to Finish</th>
+      <th>Phone Number</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders.forEach((order, index) => {
+      const outfitIdMatch = order.measurements?.match(/outfit:\s*([a-f\d]{24})/i);
+      const outfitId = outfitIdMatch ? outfitIdMatch[1] : null;
+      const productName = outfitId && outfitMap[outfitId] ? outfitMap[outfitId] : order.product;
+      const latest = measurements.find(m => m.userId.toString() === order.userId?.toString());
+    %>
+    <tr>
+      <form id="form-<%= index %>" action="/customer/order/update/<%= order._id %>" method="POST">
+        <td><input type="text" name="name" value="<%= order.name || '' %>" required /></td>
+        <td><input type="text" name="gender" value="<%= order.gender || '' %>" required /></td>
+        <td><%= productName || 'Custom Outfit' %></td>
+        <td>
+          <% if (latest) {
+            const skipKeys = ['_id', '__v', 'userId', 'outfitId', 'createdAt', 'updatedAt', 'gender'];
+            Object.entries(latest.toObject()).forEach(([key, value]) => {
+              if (!skipKeys.includes(key)) { %>
+                <label style="display:block;"><%= key %>:
+                  <input type="text" name="measurement_<%= key %>" value="<%= value %>" required />
+                </label>
+          <% } }); } else { %>
+            No measurements
+          <% } %>
+        </td>
+        <td><input type="number" name="cost" value="<%= order.cost || '' %>" required /></td>
+        <td><input type="date" name="dateToFinish" value="<%= order.dateToFinish ? order.dateToFinish.toISOString().split('T')[0] : '' %>" required /></td>
+        <td><input type="tel" name="phoneNumber" value="<%= order.phoneNumber || '' %>" pattern="\d{10}" required /></td>
+        <td>
+          <select name="status" required>
+            <option value="Pending" <%= order.status?.toLowerCase() === "pending" ? "selected" : "" %>>Pending</option>
+            <option value="Completed" <%= order.status?.toLowerCase() === "completed" ? "selected" : "" %>>Completed</option>
+          </select>
+        </td>
+        <td>
+          <button type="submit" class="save-button">Save</button>
+        </td>
+      </form>
+    </tr>
+    <tr>
+      <td colspan="9">
+        <form action="/customer/order/delete/<%= order._id %>" method="POST" style="text-align: right;">
+          <button type="submit" class="delete-button" onclick="return confirm('Delete this order?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>

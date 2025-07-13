@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Gender | Tailor Notebook</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+    }
+
+    .gender-options {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .gender-option {
+      text-align: center;
+    }
+
+    .gender-option img {
+      width: 180px;
+      height: 180px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .gender-option img:hover {
+      transform: scale(1.05);
+    }
+
+    .gender-option p {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Select Measurement Type</h2>
+  <div class="gender-options">
+    <div class="gender-option">
+      <a href="/customer/measurements/male">
+        <img src="/images/male.png" alt="Male">
+        <p>Male</p>
+      </a>
+    </div>
+    <div class="gender-option">
+      <a href="/customer/measurements/female">
+        <img src="/images/female.png" alt="Female">
+        <p>Female</p>
+      </a>
+    </div>
+    <div class="gender-option">
+      <a href="/customer/measurements/kids-type">
+        <img src="/images/kids.png" alt="Kids">
+        <p>Kids</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

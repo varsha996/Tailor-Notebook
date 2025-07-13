@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Outfit - Kids Boy</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 30px;
+    }
+    .outfit-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .outfit-option {
+      border: 2px solid transparent;
+      border-radius: 15px;
+      cursor: pointer;
+      padding: 10px;
+      transition: 0.3s ease;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .outfit-option:hover {
+      border-color: #007bff;
+      transform: scale(1.05);
+    }
+    .outfit-option img {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+    .outfit-option p {
+      margin: 0;
+      font-weight: 600;
+    }
+    .selected {
+      border-color: #007bff !important;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    button, .back-button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+    button {
+      background-color: #007bff;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .back-button {
+      background-color: #6c757d;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+  </style>
+  <script>
+    function selectOutfit(imgBox, outfitType) {
+      document.getElementById("outfitType").value = outfitType;
+      const options = document.querySelectorAll(".outfit-option");
+      options.forEach(opt => opt.classList.remove("selected"));
+      imgBox.classList.add("selected");
+    }
+
+    function validateForm(e) {
+      const outfit = document.getElementById("outfitType").value;
+      if (!outfit) {
+        alert("Please select an outfit before continuing.");
+        e.preventDefault();
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <h2>Select Outfit for Kids (Boy)</h2>
+
+  <form action="/customer/customize" method="POST" onsubmit="validateForm(event)">
+    <input type="hidden" name="gender" value="kids-boy">
+    <input type="hidden" id="outfitType" name="outfitType" required>
+
+    <div class="outfit-container">
+      <div class="outfit-option" onclick="selectOutfit(this, 't-shirt')">
+        <img src="/images/tshirtt.jpg" alt="T-shirt">
+        <p>T-shirt</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'shorts')">
+        <img src="/images/shorts.jpg" alt="Shorts">
+        <p>Shorts</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'kurta')">
+        <img src="/images/kurtaa.jpg" alt="Kurta">
+        <p>Kurta</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'blazer')">
+        <img src="/images/blazerr.jpg" alt="Blazer">
+        <p>Blazer</p>
+      </div>
+
+      <!-- Four more options to make total 8 -->
+      <div class="outfit-option" onclick="selectOutfit(this, 'jeans')">
+        <img src="/images/jeans.jpg" alt="Jeans">
+        <p>Jeans</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'sweater')">
+        <img src="/images/sweater.jpg" alt="Sweater">
+        <p>Sweater</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'jacket')">
+        <img src="/images/jacket.jpg" alt="Jacket">
+        <p>Jacket</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'shirt')">
+        <img src="/images/shirt.jpg" alt="Shirt">
+        <p>Shirt</p>
+      </div>
+    </div>
+
+    <div class="buttons-container">
+      <a href="/customer/measurements/kids-type" class="back-button">Back</a>
+      <button type="submit">Next</button>
+    </div>
+  </form>
+
+</body>
+</html>

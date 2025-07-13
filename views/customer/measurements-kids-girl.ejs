@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Outfit - Kids Girl</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 30px;
+    }
+    .outfit-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .outfit-option {
+      border: 2px solid transparent;
+      border-radius: 15px;
+      cursor: pointer;
+      padding: 10px;
+      transition: 0.3s ease;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .outfit-option:hover {
+      border-color: #e83e8c;
+      transform: scale(1.05);
+    }
+    .outfit-option img {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+    .outfit-option p {
+      margin: 0;
+      font-weight: 600;
+    }
+    .selected {
+      border-color: #e83e8c !important;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    button, .back-button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+    button {
+      background-color: #e83e8c;
+    }
+    button:hover {
+      background-color: #c2185b;
+    }
+    .back-button {
+      background-color: #6c757d;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+  </style>
+  <script>
+    function selectOutfit(imgBox, outfitType) {
+      document.getElementById("outfitType").value = outfitType;
+      const options = document.querySelectorAll(".outfit-option");
+      options.forEach(opt => opt.classList.remove("selected"));
+      imgBox.classList.add("selected");
+    }
+
+    function validateForm(e) {
+      const outfit = document.getElementById("outfitType").value;
+      if (!outfit) {
+        alert("Please select an outfit before continuing.");
+        e.preventDefault();
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <h2>Select Outfit for Kids (Girl)</h2>
+
+  <form action="/customer/customize" method="POST" onsubmit="validateForm(event)">
+    <input type="hidden" name="gender" value="kids-girl">
+    <input type="hidden" id="outfitType" name="outfitType" required>
+
+    <div class="outfit-container">
+      <div class="outfit-option" onclick="selectOutfit(this, 'skirt')">
+        <img src="/images/skirt.jpeg" alt="Skirt">
+        <p>Skirt</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'lehenga')">
+        <img src="/images/lehengaa.jpg" alt="Lehenga">
+        <p>Lehenga</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'gown')">
+        <img src="/images/gownn.jpg" alt="Gown">
+        <p>Gown</p>
+      </div>
+      
+      <div class="outfit-option" onclick="selectOutfit(this, 'top-jeans')">
+        <img src="/images/top-jeans.jpg" alt="Top with Jeans">
+        <p>Top with Jeans</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'salwar')">
+        <img src="/images/salwarsuit.jpg" alt="Salwar Suit">
+        <p>Salwar Suit</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'jumpsuit')">
+        <img src="/images/jumpsuit.jpg" alt="Jumpsuit">
+        <p>Jumpsuit</p>
+      </div>
+      <div class="outfit-option" onclick="selectOutfit(this, 'jacket')">
+        <img src="/images/jackett.jpg" alt="Jacket">
+        <p>Jacket</p>
+      </div>
+    </div>
+
+    <div class="buttons-container">
+      <a href="/customer/measurements/kids-type" class="back-button">Back</a>
+      <button type="submit">Next</button>
+    </div>
+  </form>
+
+</body>
+</html>

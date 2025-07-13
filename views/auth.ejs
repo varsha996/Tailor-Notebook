@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= isLogin ? 'Login' : 'Signup' %> | Tailor Notebook</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-container {
+      background: #fff;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    input.invalid {
+      border: 2px solid #e63946;
+    }
+
+    input.valid {
+      border: 2px solid #2a9d8f;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .switch-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .switch-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    #password-tip,
+    #username-feedback {
+      font-size: 0.85rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h1 style="text-align: center; color: #007bff; margin-bottom: 0.5rem;">
+      Tailor Notebook
+    </h1>
+
+    <h2><%= isLogin ? 'Login' : 'Signup' %></h2>
+
+    <form method="POST" action="<%= isLogin ? '/auth/login' : '/auth/signup' %>" id="authForm">
+      <input type="text" name="username" id="username" placeholder="Username" required />
+      <p id="username-feedback" style="color: red;"></p>
+
+      <input type="password" name="password" id="password" placeholder="Password" required />
+      <% if (!isLogin) { %>
+        <p id="password-tip"></p>
+      <% } %>
+
+      <button type="submit"><%= isLogin ? 'Login' : 'Signup' %></button>
+    </form>
+
+    <div class="switch-link">
+      <% if (isLogin) { %>
+        <p>Don't have an account? <a href="/auth/signup">Signup</a></p>
+      <% } else { %>
+        <p>Already have an account? <a href="/auth/login">Login</a></p>
+      <% } %>
+    </div>
+  </div>
+
+  <% if (!isLogin) { %>
+    <script>
+      const form = document.getElementById('authForm');
+      const passwordInput = document.getElementById('password');
+      const usernameInput = document.getElementById('username');
+      const passwordTip = document.getElementById('password-tip');
+      const usernameFeedback = document.getElementById('username-feedback');
+    
+      function isStrongPassword(pwd) {
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
+      }
+    
+      let passwordValid = false;
+      let usernameValid = false;
+    
+      // Password strength validation
+      passwordInput.addEventListener('input', () => {
+        const pwd = passwordInput.value;
+        if (!isStrongPassword(pwd)) {
+          passwordInput.classList.add('invalid');
+          passwordInput.classList.remove('valid');
+          passwordTip.style.color = '#e63946';
+          passwordTip.textContent = 'Password must be 8+ chars with uppercase, lowercase, number, and special character.';
+          passwordValid = false;
+        } else {
+          passwordInput.classList.remove('invalid');
+          passwordInput.classList.add('valid');
+          passwordTip.style.color = '#2a9d8f';
+          passwordTip.textContent = 'Strong password ✔';
+          passwordValid = true;
+        }
+      });
+    
+      // Username availability check
+      usernameInput.addEventListener('input', async () => {
+        const username = usernameInput.value.trim();
+        if (!username) {
+          usernameFeedback.textContent = '';
+          usernameInput.classList.remove('invalid', 'valid');
+          return;
+        }
+    
+        try {
+          const res = await fetch(`/auth/check-username?username=${encodeURIComponent(username)}`);
+          const data = await res.json();
+          console.log("Username check response:", data); // Debug log
+    
+          if (data.exists) {
+            usernameFeedback.textContent = '⚠️ Username already exists';
+            usernameFeedback.style.color = '#e63946';
+            usernameInput.classList.add('invalid');
+            usernameInput.classList.remove('valid');
+            usernameValid = false;
+          } else {
+            usernameFeedback.textContent = '✅ Username is available';
+            usernameFeedback.style.color = '#2a9d8f';
+            usernameInput.classList.remove('invalid');
+            usernameInput.classList.add('valid');
+            usernameValid = true;
+          }
+        } catch (error) {
+          console.error("Error checking username:", error);
+          usernameFeedback.textContent = '⚠️ Server error';
+          usernameFeedback.style.color = '#e63946';
+        }
+      });
+    
+      // Prevent form submit if invalid
+      form.addEventListener('submit', (e) => {
+        if (!passwordValid || !usernameValid) {
+          e.preventDefault();
+          if (!usernameValid) usernameInput.focus();
+          else passwordInput.focus();
+        }
+      });
+    </script>
+    
+  <% } %>
+</body>
+</html>

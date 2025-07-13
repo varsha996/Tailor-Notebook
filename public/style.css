@@ -1,0 +1,13 @@
+body {
+  background: linear-gradient(to right, #e0f7fa, #80deea);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+}
+
+h1 {
+  color: #00695c;
+}
+
+ul li a {
+  color: #004d40;
+}

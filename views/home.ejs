@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome | Tailor Notebook</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #80deea);
+      
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .options {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .option {
+      text-align: center;
+    }
+
+    .option img {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .option img:hover {
+      transform: scale(1.05);
+    }
+
+    .option p {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .login-link {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Tailor Notebook</h1>
+  <div class="options">
+    <div class="option">
+  <a href="/auth/signup">
+    <img src="/images/tailor.png" alt="Tailor">
+    <p>Sign Up</p>
+  </a>
+  <div class="login-link">
+    <p>Already have an account? <a href="/auth/login">Login</a></p>
+  </div>
+</div>
+  </div>
+</body>
+</html>

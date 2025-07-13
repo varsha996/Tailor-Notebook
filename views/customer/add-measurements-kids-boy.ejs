@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Measurements - Male</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* [Your CSS remains unchanged] */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      margin: 0; padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+    form > div {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #555;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #0077ff;
+      outline: none;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button[type="submit"] {
+      background-color: #0077ff;
+      color: white;
+    }
+    button[type="submit"]:hover {
+      background-color: #005ecb;
+    }
+    button.back {
+      background-color: #ddd;
+      color: #555;
+    }
+    button.back:hover {
+      background-color: #bbb;
+    }
+    small.optional {
+      color: #999;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add Measurements - Boy Outfit</h1>
+    <form action="/customer/add-measurements" method="POST">
+      <input type="hidden" name="gender" value="kids-boy" />
+      <input type="hidden" name="outfitId" value="<%= outfitId || '' %>" />
+      <div>
+    <label for="name">Customer Name (Required)</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      placeholder="Enter customer's name"
+      pattern="^[A-Za-z\s]+$"
+      title="Only letters and spaces allowed"
+    />
+  </div>
+      <% const fields = [
+        'chest', 'waist', 'hip', 'shoulder', 'sleeveLength', 'bicep', 'wrist',
+        'neck', 'shirtLength', 'inseam', 'outseam', 'thigh', 'knee',
+        'cuffWidth', 'frontChest', 'backLength', 'rise'
+      ]; %>
+
+      <% fields.forEach(field => { %>
+        <div>
+          <label for="<%- field %>">
+            <%= field.charAt(0).toUpperCase() + field.slice(1) %> 
+            <small class="optional">inch or cm</small>
+          </label>
+          <input
+            type="text"
+            id="<%- field %>"
+            name="<%- field %>"
+            pattern="^[0-9]*\.?[0-9]+\s?(cm|in)?$"
+            title="Enter a number, optionally with units 'cm' or 'in'"
+          />
+        </div>
+      <% }); %>
+
+      <div class="buttons">
+        <button type="button" class="back" onclick="window.location.href='/customer/select-gender'">Back</button>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

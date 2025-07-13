@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Tailor Notebook</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      padding: 1.2rem 2rem;
+      background-color: #ffffffcc;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      color: #333;
+      margin: 0;
+    }
+
+    .header-content a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.6rem 1.2rem;
+      border: 2px solid #e63946;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .header-content a:hover {
+      background: #e63946;
+      color: white;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 220px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.1rem;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    .icon {
+      font-size: 3rem;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Welcome, <%= user.username %>!</h1>
+      <a href="/auth/logout">🚪 Logout</a>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="card">
+      <div class="icon">📏</div>
+      <a href="/customer/measurements">Add Measurements</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">📦</div>
+      <a href="/customer/orders">Order History</a>
+    </div>
+
+    <div class="card">
+      <div class="icon">👤</div>
+      <a href="/customer/profile">Personal Details</a>
+    </div>
+  </div>
+</body>
+</html>

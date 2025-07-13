@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kids - Boy or Girl</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .gender-option { text-align: center; margin: 20px; }
+    .gender-option img {
+      width: 180px; height: 180px; border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer; transition: transform 0.3s;
+    }
+    .gender-option img:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Select Boy or Girl</h2>
+  <div style="display: flex; justify-content: center; gap: 60px;">
+    <div class="gender-option">
+      <a href="/customer/measurements/kids-boy">
+        <img src="/images/boy.png" alt="Boy">
+        <p>Boy</p>
+      </a>
+    </div>
+    <div class="gender-option">
+      <a href="/customer/measurements/kids-girl">
+        <img src="/images/girl.png" alt="Girl">
+        <p>Girl</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
